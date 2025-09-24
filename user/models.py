@@ -14,5 +14,3 @@ class User(BaseModel):
     def __str__(self):
         return self.username
 
-class TestandoOutroModel(BaseModel):
-    test = models.CharField(max_length=20, unique=True)
