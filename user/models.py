@@ -13,3 +13,4 @@ class User(BaseModel):
     is_staff = models.BooleanField(default=False)
     def __str__(self):
         return self.username
+
