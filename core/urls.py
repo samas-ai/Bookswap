@@ -19,8 +19,14 @@ urlpatterns = [
     path('api/v1/', include('user.urls')),
 
     # Rota para obter tokens JWT
-     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
 
     # Rota para renovação dos tokens JWT
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+
+    # Rota para verificação de books
+    path('api/v1/books/', include('user.api.v1.router')),
+
+    # Rota para verificação de trades
+    path('api/v1/trades/', include('user.api.v1.router')),
 ]
