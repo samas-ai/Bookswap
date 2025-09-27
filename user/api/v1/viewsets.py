@@ -14,26 +14,19 @@ class UserViewSet(viewsets.ModelViewSet):
 class BookViewSet(viewsets.ModelViewSet):
     queryset = Book.objects.all()
     serializer_class = BookSerializer
-    permission_classes = [permissions.IsAuthenticated]
-
-    def get_queryset(self):
-        user = self.request.user
-        if not user.is_authenticated:
-            return Book.objects.none()
-        return self.queryset.filter(owner=user)
-
-    def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
 
 
 class TradeViewSet(viewsets.ModelViewSet):
     queryset = Trade.objects.all()
     serializer_class = TradeSerializer
-    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
+        
+        queryset = self.queryset
         user = self.request.user
-        return self.queryset.filter(models.Q(proposer=user) | models.Q(receiver=user))
+        if user.is_authenticated:
+            queryset = queryset.filter(models.Q(proposer=user) | models.Q(receiver=user))
+        return queryset
 
     @action(detail=True, methods=['post'])
     def accept(self, request, pk=None):
